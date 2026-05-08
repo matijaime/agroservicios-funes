@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AgroServicios Funes — Contratista Rural · Santa Fe</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode:"class",
+  theme:{extend:{
+    colors:{
+      "primary":"#4c2502","secondary":"#81551a","surface":"#fff8f1",
+      "background":"#fff8f1","on-primary":"#ffffff","on-surface":"#1e1b16",
+      "on-surface-variant":"#51443b","surface-variant":"#e8e1d9",
+      "outline-variant":"#d6c3b7","inverse-on-surface":"#f7f0e7",
+      "surface-container-low":"#faf3ea","surface-bright":"#fff8f1",
+      "tertiary-container":"#394b29","tertiary-fixed":"#d4eabc",
+      "secondary-fixed":"#ffddb9","surface-container":"#f4ede4"
+    },
+    fontFamily:{
+      "serif":["Playfair Display","Georgia","serif"],
+      "sans":["Open Sans","sans-serif"]
+    }
+  }}
+}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{overflow-x:hidden;font-family:'Open Sans',sans-serif;}
+
+/* Paper noise */
+.noise-overlay{
+  position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.045;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.055'/%3E%3C/svg%3E");
+  background-size:220px 220px;
+}
+
+/* Scroll reveal */
+.reveal{
+  opacity:0;transform:translateY(28px);filter:blur(4px);
+  transition:opacity .82s cubic-bezier(.32,.72,0,1),
+             transform .82s cubic-bezier(.32,.72,0,1),
+             filter .82s cubic-bezier(.32,.72,0,1);
+}
+.reveal.visible{opacity:1;transform:none;filter:blur(0);}
+
+/* Navbar */
+.nav-bar{
+  transition:background .4s cubic-bezier(.32,.72,0,1),
+             border-color .4s cubic-bezier(.32,.72,0,1),
+             box-shadow .4s cubic-bezier(.32,.72,0,1),
+             backdrop-filter .4s cubic-bezier(.32,.72,0,1);
+}
+.nav-transparent{background:transparent;border-bottom:1px solid transparent;box-shadow:none;}
+.nav-scrolled{
+  background:rgba(247,240,231,.95);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(139,94,60,.14);
+  box-shadow:0 1px 24px rgba(44,34,24,.08);
+}
+
+/* Logo text transitions */
+.nav-logo-name,.nav-logo-sub,.nav-link{transition:color .4s cubic-bezier(.32,.72,0,1);}
+
+/* Hamburger */
+.ham-line{
+  display:block;width:22px;height:2px;border-radius:1px;
+  transition:transform .32s ease,opacity .22s ease,background .4s ease;
+  transform-origin:center;
+}
+.ham-btn.open .ham-line:nth-child(1){transform:translateY(7.5px) rotate(45deg);}
+.ham-btn.open .ham-line:nth-child(2){opacity:0;transform:scaleX(0);}
+.ham-btn.open .ham-line:nth-child(3){transform:translateY(-7.5px) rotate(-45deg);}
+
+/* Mobile overlay */
+.menu-overlay{
+  position:fixed;inset:0;z-index:70;
+  background:rgba(37,28,18,.97);
+  opacity:0;pointer-events:none;transition:opacity .32s ease;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.2rem;
+}
+.menu-overlay.open{opacity:1;pointer-events:all;}
+.menu-link-ov{
+  font-family:'Playfair Display',serif;font-size:2.8rem;font-style:italic;font-weight:700;
+  color:#f0e2cf;text-decoration:none;
+  opacity:0;transform:translateY(16px);
+  transition:opacity .36s ease,transform .36s ease,color .22s;
+}
+.menu-link-ov:hover{color:#b17e40;}
+.menu-overlay.open .menu-link-ov:nth-child(1){opacity:1;transform:none;transition-delay:.07s;}
+.menu-overlay.open .menu-link-ov:nth-child(2){opacity:1;transform:none;transition-delay:.12s;}
+.menu-overlay.open .menu-link-ov:nth-child(3){opacity:1;transform:none;transition-delay:.17s;}
+.menu-overlay.open .menu-link-ov:nth-child(4){opacity:1;transform:none;transition-delay:.22s;}
+
+/* Buttons */
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 28px;border-radius:50px;
+  font-family:'Open Sans',sans-serif;font-size:12px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.14em;text-decoration:none;cursor:pointer;
+  transition:transform .28s cubic-bezier(.32,.72,0,1),
+             box-shadow .28s cubic-bezier(.32,.72,0,1),
+             background .22s ease,color .22s ease,border-color .22s ease;
+  border:2px solid transparent;
+}
+.btn:hover{transform:translateY(-2px);}
+.btn:active{transform:scale(.97);}
+
+.btn-dorado{background:#b17e40;color:#fff;border-color:#b17e40;box-shadow:0 2px 12px rgba(177,126,64,.28);}
+.btn-dorado:hover{background:#8c6025;border-color:#8c6025;box-shadow:0 7px 24px rgba(177,126,64,.38);}
+
+.btn-tierra{background:#673b15;color:#f0e2cf;border-color:#673b15;box-shadow:0 2px 12px rgba(103,59,21,.22);}
+.btn-tierra:hover{background:#3d2008;border-color:#3d2008;box-shadow:0 7px 24px rgba(103,59,21,.32);}
+
+.btn-outline-crema{background:transparent;color:#f0e2cf;border-color:rgba(240,226,207,.65);}
+.btn-outline-crema:hover{background:rgba(240,226,207,.1);border-color:#f0e2cf;}
+
+.btn-outline-tierra{background:transparent;color:#673b15;border-color:#673b15;box-shadow:0 2px 8px rgba(103,59,21,.08);}
+.btn-outline-tierra:hover{background:#673b15;color:#f0e2cf;box-shadow:0 7px 20px rgba(103,59,21,.24);}
+
+.btn-wa{background:#2e7d32;color:#fff;border-color:#2e7d32;box-shadow:0 2px 12px rgba(46,125,50,.24);}
+.btn-wa:hover{background:#1b5e20;border-color:#1b5e20;box-shadow:0 7px 24px rgba(46,125,50,.34);}
+
+/* Badge */
+.badge{
+  display:inline-block;font-family:'Open Sans',sans-serif;font-size:11px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.22em;padding:3px 10px;
+  border:1px solid currentColor;border-radius:3px;
+}
+
+/* Wheat divider lines */
+.wline{flex:1;height:1px;background:linear-gradient(to right,transparent,#b17e40 50%,transparent);}
+.wline-c{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(240,226,207,.45) 50%,transparent);}
+
+/* Olive section */
+.bg-oliva{background-color:#3C4E2C;position:relative;}
+.bg-oliva::before{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size:200px 200px;
+}
+
+/* Service ficha */
+.ficha-outer{
+  background:rgba(103,59,21,.04);border:1px solid rgba(103,59,21,.15);
+  border-radius:4px;padding:2px;
+  transition:transform .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1);
+  height:100%;
+}
+.ficha-outer:hover{transform:translateY(-5px);box-shadow:0 18px 50px rgba(103,59,21,.16);}
+.ficha-inner{
+  background:#fff;border-top:3px solid #673b15;border-radius:3px;
+  padding:3.5rem 2rem 2.25rem;position:relative;overflow:hidden;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9);height:100%;
+}
+.ficha-num{
+  position:absolute;top:.5rem;right:1rem;
+  font-family:'Playfair Display',serif;font-size:5.5rem;font-style:italic;font-weight:900;
+  color:#673b15;opacity:.055;line-height:1;user-select:none;pointer-events:none;
+  transition:opacity .3s;
+}
+.ficha-outer:hover .ficha-num{opacity:.1;}
+.ficha-icon{
+  width:52px;height:52px;border:1px solid rgba(103,59,21,.22);border-radius:3px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:1.4rem;background:rgba(103,59,21,.05);
+}
+.spec-row{
+  display:flex;justify-content:space-between;padding-bottom:.35rem;
+  border-bottom:1px solid rgba(103,59,21,.08);
+  font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;
+}
+
+/* Campaign & gallery hover */
+.camp-img{transition:transform .7s cubic-bezier(.32,.72,0,1);}
+.camp-card:hover .camp-img{transform:scale(1.05);}
+.gal-img{transition:transform .5s cubic-bezier(.32,.72,0,1);}
+.gal-card:hover .gal-img{transform:scale(1.07);}
+.gal-card,.camp-card{
+  transition:transform .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1);
+}
+.gal-card:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(103,59,21,.18);}
+.camp-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(37,28,18,.28);}
+
+/* Double bezel service cards */
+.double-bezel{
+  border:1px solid #4c2502;
+  box-shadow:inset 0 0 0 1px #ffddb9;
+}
+.material-symbols-outlined{font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24;}
+
+
+/* Info box */
+.info-box{
+  border:1px solid rgba(240,226,207,.16);border-radius:3px;
+  padding:2rem 1.5rem;text-align:center;background:rgba(240,226,207,.04);
+}
+
+/* Responsive grids */
+@media(min-width:768px){
+  #serviciosGrid{grid-template-columns:repeat(3,1fr) !important;}
+  #campanasGrid{grid-template-columns:repeat(2,1fr) !important;}
+  #galeriaGrid{grid-template-columns:repeat(3,1fr) !important;}
+  #infoStrip{grid-template-columns:repeat(3,1fr) !important;}
+}
+</style>
+</head>
+
+<body class="bg-background text-on-surface antialiased">
+<div class="noise-overlay"></div>
+
+<!-- ░░ NAV ░░ -->
+<nav id="mainNav" class="nav-bar nav-transparent fixed top-0 w-full z-50">
+  <div style="max-width:1100px;margin:0 auto;padding:0 1.5rem;height:62px;display:flex;align-items:center;justify-content:space-between;">
+
+    <a href="#" style="display:flex;align-items:center;gap:.8rem;text-decoration:none;">
+      <img src="imagenes/foto_perfil.jpg" alt="AgroServicios Funes"
+           style="width:40px;height:40px;object-fit:cover;border-radius:50%;border:2px solid #673b15;flex-shrink:0;">
+      <span style="display:flex;flex-direction:column;line-height:1.1;">
+        <span class="nav-logo-name" style="font-family:'Playfair Display',serif;font-size:1.04rem;font-weight:700;font-style:italic;color:#f0e2cf;">AgroServicios Funes</span>
+        <span class="nav-logo-sub" style="font-size:.56rem;font-weight:800;text-transform:uppercase;letter-spacing:.2em;color:rgba(240,226,207,.65);margin-top:1px;">Contratista Rural</span>
+      </span>
+    </a>
+
+    <div class="hidden md:flex" style="align-items:center;gap:1.75rem;">
+      <a href="#servicios" class="nav-link" style="font-size:.67rem;font-weight:900;text-transform:uppercase;letter-spacing:.16em;color:rgba(240,226,207,.85);text-decoration:none;position:relative;">Servicios</a>
+      <a href="#campanas"  class="nav-link" style="font-size:.67rem;font-weight:900;text-transform:uppercase;letter-spacing:.16em;color:rgba(240,226,207,.85);text-decoration:none;position:relative;">Campañas</a>
+      <a href="#galeria"   class="nav-link" style="font-size:.67rem;font-weight:900;text-transform:uppercase;letter-spacing:.16em;color:rgba(240,226,207,.85);text-decoration:none;position:relative;">Galería</a>
+      <a href="#contacto"  class="btn btn-tierra" style="font-size:.68rem;padding:10px 20px;">Contactar</a>
+    </div>
+
+    <button id="hamBtn" class="ham-btn md:hidden" onclick="toggleMenu()" style="display:flex;flex-direction:column;gap:5.5px;background:none;border:none;cursor:pointer;padding:5px;" aria-label="Menú">
+      <span class="ham-line" style="background:#f0e2cf;"></span>
+      <span class="ham-line" style="background:#f0e2cf;"></span>
+      <span class="ham-line" style="background:#f0e2cf;"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ░░ MOBILE OVERLAY ░░ -->
+<div id="menuOverlay" class="menu-overlay">
+  <a href="#servicios" class="menu-link-ov" onclick="toggleMenu()">Servicios</a>
+  <a href="#campanas"  class="menu-link-ov" onclick="toggleMenu()">Campañas</a>
+  <a href="#galeria"   class="menu-link-ov" onclick="toggleMenu()">Galería</a>
+  <a href="#contacto"  class="menu-link-ov" onclick="toggleMenu()" style="color:#b17e40;">Contacto</a>
+</div>
+
+<!-- ░░ HERO ░░ -->
+<header id="heroSection" style="min-height:100dvh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:62px 1.5rem 2rem;overflow:hidden;">
+
+  <div style="position:absolute;inset:0;z-index:0;">
+    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYZlNq14BRD32iLGeh8vISPAvgTNFhWoMiG94UCw5Xhfe9uICvAb-QbgIPKU04J3c01I2zZZj1gyhEqkbfpu2UBFfNWm57hhnNuKpvFf1-EJSOHBGu9n1kdIJndR15hJqpx37Cx0MKwUoaO3_z_D-4-qVHRVRHxU94GbjFr_uAqALO1U4Eh_iwV4zuKbyVUfAWWGA5U5fswJA8OgT2OexMV1viUZ4KSHs9QW_aeCdqKUVpK9EydLpAQkZxnY6LhzsTnHWaX_kpJZ8"
+         alt="" id="heroBg" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;">
+    <div style="position:absolute;inset:0;background:linear-gradient(175deg,rgba(37,28,18,.82) 0%,rgba(44,34,24,.65) 45%,rgba(60,78,44,.6) 100%);"></div>
+  </div>
+
+  <div style="position:relative;z-index:2;text-align:center;max-width:860px;width:100%;">
+
+    <div class="reveal" style="display:flex;justify-content:center;margin-bottom:1.25rem;">
+      <div style="padding:5px;border:2px solid rgba(177,126,64,.55);border-radius:50%;box-shadow:0 0 0 8px rgba(177,126,64,.1);">
+        <img src="imagenes/foto_perfil.jpg" alt="AgroServicios Funes"
+             style="width:88px;height:88px;object-fit:cover;border-radius:50%;display:block;">
+      </div>
+    </div>
+
+    <div class="reveal" style="transition-delay:.07s;display:flex;justify-content:center;margin-bottom:1.1rem;">
+      <span class="badge" style="color:#f0e2cf;border-color:rgba(240,226,207,.45);">Contratista Rural · Santa Fe, Argentina</span>
+    </div>
+
+    <div class="reveal" style="transition-delay:.13s;margin-bottom:1.1rem;">
+      <h1 style="font-family:'Playfair Display',serif;font-size:clamp(2.4rem,6vw,4.6rem);line-height:1.1;font-weight:700;font-style:italic;color:#f0e2cf;text-shadow:0 2px 28px rgba(0,0,0,.32);">
+        El campo,<br>trabajado con <span style="color:#b17e40;">dedicación.</span>
+      </h1>
+    </div>
+
+    <div class="reveal" style="transition-delay:.19s;margin-bottom:2rem;">
+      <p style="font-size:1.05rem;line-height:1.65;color:rgba(240,226,207,.78);max-width:520px;margin:0 auto;font-weight:300;">
+        Siembra, disqueo y arado con equipamiento moderno.<br>
+        Comprometidos con cada hectárea del agro argentino.
+      </p>
+    </div>
+
+    <div class="reveal" style="transition-delay:.25s;display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;">
+      <a href="#contacto" class="btn btn-dorado">Solicitar servicio</a>
+      <a href="#servicios" class="btn btn-outline-crema">Ver servicios</a>
+    </div>
+  </div>
+
+</header>
+
+<!-- ░░ WHEAT DIVIDER ░░ -->
+<div style="background:#f7f0e7;padding:3.5rem 1.5rem 0;text-align:center;">
+  <div style="display:flex;align-items:center;gap:1rem;max-width:440px;margin:0 auto;opacity:.65;">
+    <div class="wline"></div>
+    <svg width="56" height="22" viewBox="0 0 56 22" fill="none" style="flex-shrink:0;color:#b17e40;">
+      <line x1="28" y1="12" x2="28" y2="21" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M28 12 L28 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M28 10 C26 7,23 7.5,22 10" stroke="currentColor" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+      <path d="M28 10 C30 7,33 7.5,34 10" stroke="currentColor" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+      <path d="M28 7 C26 4,23 4.5,22 7"  stroke="currentColor" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+      <path d="M28 7 C30 4,33 4.5,34 7"  stroke="currentColor" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+      <circle cx="28" cy="4" r="1.4" fill="currentColor"/>
+      <line x1="16" y1="13" x2="16" y2="20" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity=".55"/>
+      <path d="M16 13 C14.5 10.5,12.5 11,12 13" stroke="currentColor" stroke-width=".9" fill="none" stroke-linecap="round" opacity=".55"/>
+      <path d="M16 13 C17.5 10.5,19.5 11,20 13" stroke="currentColor" stroke-width=".9" fill="none" stroke-linecap="round" opacity=".55"/>
+      <circle cx="16" cy="10" r="1.1" fill="currentColor" opacity=".55"/>
+      <line x1="40" y1="13" x2="40" y2="20" stroke="currentColor" stroke-width="1" stroke-linecap="round" opacity=".55"/>
+      <path d="M40 13 C38.5 10.5,36.5 11,36 13" stroke="currentColor" stroke-width=".9" fill="none" stroke-linecap="round" opacity=".55"/>
+      <path d="M40 13 C41.5 10.5,43.5 11,44 13" stroke="currentColor" stroke-width=".9" fill="none" stroke-linecap="round" opacity=".55"/>
+      <circle cx="40" cy="10" r="1.1" fill="currentColor" opacity=".55"/>
+    </svg>
+    <div class="wline"></div>
+  </div>
+</div>
+
+<!-- ░░ SERVICIOS ░░ -->
+<section id="servicios" style="padding:5rem 1.5rem 6.5rem;background:#f7f0e7;">
+  <div style="max-width:1100px;margin:0 auto;">
+
+    <div class="reveal" style="margin-bottom:3.5rem;text-align:center;">
+      <span class="badge" style="color:#617A4E;border-color:rgba(74,92,58,.5);">Nuestros Servicios</span>
+      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(2rem,4.5vw,3.5rem);font-weight:700;font-style:italic;line-height:1.14;margin-top:.9rem;color:#3d2008;">
+        Equipo disponible para trabajar tu campo
+      </h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr;gap:2rem;" id="serviciosGrid">
+
+      <!-- 01 Siembra -->
+      <div class="reveal double-bezel" style="background:#faf3ea;padding:2rem;position:relative;overflow:hidden;transition:transform .3s cubic-bezier(.32,.72,0,1);transition-delay:.06s;" onmouseenter="this.style.transform='translateY(-4px)'" onmouseleave="this.style.transform='translateY(0)'">
+        <span class="material-symbols-outlined" style="font-size:2.5rem;color:#4c2502;display:block;margin-bottom:1.25rem;">agriculture</span>
+        <span class="badge" style="color:#617A4E;border-color:rgba(74,92,58,.45);margin-bottom:.9rem;display:inline-block;font-size:10px;">Disponible</span>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:700;font-style:italic;color:#3d2008;margin-bottom:.75rem;">Siembra</h3>
+        <p style="font-size:.88rem;line-height:1.82;color:#51443b;font-weight:300;margin-bottom:1.5rem;">
+          Siembra de precisión con equipamiento actualizado. Maíz, soja, sorgo y cultivos de cobertura. Densidad controlada para maximizar el rendimiento por hectárea.
+        </p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.5rem;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#51443b;">
+          <li style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(214,195,183,.5);padding-bottom:.4rem;"><span>Monitor</span><span style="color:#4c2502;">GPS</span></li>
+          <li style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(214,195,183,.5);padding-bottom:.4rem;"><span>Cultivos</span><span style="color:#4c2502;">Maíz / Soja / Sorgo</span></li>
+        </ul>
+        <div style="margin-top:1.75rem;"><a href="#contacto" class="btn btn-tierra" style="font-size:.71rem;padding:10px 22px;">Consultar</a></div>
+      </div>
+
+      <!-- 02 Disco -->
+      <div class="reveal double-bezel" style="background:#faf3ea;padding:2rem;position:relative;overflow:hidden;transition:transform .3s cubic-bezier(.32,.72,0,1);transition-delay:.11s;" onmouseenter="this.style.transform='translateY(-4px)'" onmouseleave="this.style.transform='translateY(0)'">
+        <span class="material-symbols-outlined" style="font-size:2.5rem;color:#4c2502;display:block;margin-bottom:1.25rem;">settings</span>
+        <span class="badge" style="color:#617A4E;border-color:rgba(74,92,58,.45);margin-bottom:.9rem;display:inline-block;font-size:10px;">Disponible</span>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:700;font-style:italic;color:#3d2008;margin-bottom:.75rem;">Disco</h3>
+        <p style="font-size:.88rem;line-height:1.82;color:#51443b;font-weight:300;margin-bottom:1.5rem;">
+          Labranza vertical con disco para preparación óptima del suelo. Control de malezas, incorporación de rastrojo y cama de siembra perfecta para cada campaña.
+        </p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.5rem;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#51443b;">
+          <li style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(214,195,183,.5);padding-bottom:.4rem;"><span>Profundidad</span><span style="color:#4c2502;">10–15 cm</span></li>
+          <li style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(214,195,183,.5);padding-bottom:.4rem;"><span>Velocidad</span><span style="color:#4c2502;">8–10 km/h</span></li>
+        </ul>
+        <div style="margin-top:1.75rem;"><a href="#contacto" class="btn btn-tierra" style="font-size:.71rem;padding:10px 22px;">Consultar</a></div>
+      </div>
+
+      <!-- 03 Arado -->
+      <div class="reveal double-bezel" style="background:#faf3ea;padding:2rem;position:relative;overflow:hidden;transition:transform .3s cubic-bezier(.32,.72,0,1);transition-delay:.16s;" onmouseenter="this.style.transform='translateY(-4px)'" onmouseleave="this.style.transform='translateY(0)'">
+        <span class="material-symbols-outlined" style="font-size:2.5rem;color:#4c2502;display:block;margin-bottom:1.25rem;">landscape</span>
+        <span class="badge" style="color:#617A4E;border-color:rgba(74,92,58,.45);margin-bottom:.9rem;display:inline-block;font-size:10px;">Disponible</span>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.75rem;font-weight:700;font-style:italic;color:#3d2008;margin-bottom:.75rem;">Arado</h3>
+        <p style="font-size:.88rem;line-height:1.82;color:#51443b;font-weight:300;margin-bottom:1.5rem;">
+          Remoción profunda con arado de reja y vertedera. Ideal para incorporación de materia orgánica, corrección de compactación y preparación en suelos con alta carga de rastrojo.
+        </p>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:.5rem;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#51443b;">
+          <li style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(214,195,183,.5);padding-bottom:.4rem;"><span>Tipo</span><span style="color:#4c2502;">Reja / Vertedera</span></li>
+          <li style="display:flex;justify-content:space-between;border-bottom:1px solid rgba(214,195,183,.5);padding-bottom:.4rem;"><span>Potencia</span><span style="color:#4c2502;">+200 HP</span></li>
+        </ul>
+        <div style="margin-top:1.75rem;"><a href="#contacto" class="btn btn-tierra" style="font-size:.71rem;padding:10px 22px;">Consultar</a></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ░░ CAMPAÑAS ░░ -->
+<section id="campanas" class="bg-oliva" style="padding:6rem 1.5rem 7rem;">
+  <div style="max-width:1100px;margin:0 auto;position:relative;z-index:1;">
+
+    <div class="reveal" style="margin-bottom:3.5rem;">
+      <span class="badge" style="color:rgba(240,226,207,.8);border-color:rgba(240,226,207,.3);">Campañas 2025</span>
+      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(2rem,4.5vw,3.5rem);font-weight:700;font-style:italic;line-height:1.14;margin-top:.9rem;color:#f0e2cf;">
+        Temporada 2025<br>en plena marcha
+      </h2>
+      <div style="display:flex;align-items:center;gap:1rem;max-width:280px;margin-top:1.25rem;opacity:.35;">
+        <div class="wline-c"></div>
+        <svg width="34" height="16" viewBox="0 0 34 16" fill="none" style="flex-shrink:0;">
+          <line x1="17" y1="9" x2="17" y2="15" stroke="#EDE0C4" stroke-width="1.1" stroke-linecap="round"/>
+          <path d="M17 9 L17 4" stroke="#EDE0C4" stroke-width="1.1" stroke-linecap="round"/>
+          <path d="M17 7.5 C15.5 5,13 5.5,12 7.5" stroke="#EDE0C4" stroke-width="1" fill="none" stroke-linecap="round"/>
+          <path d="M17 7.5 C18.5 5,21 5.5,22 7.5" stroke="#EDE0C4" stroke-width="1" fill="none" stroke-linecap="round"/>
+          <circle cx="17" cy="3" r="1.2" fill="#EDE0C4"/>
+        </svg>
+        <div class="wline-c"></div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr;gap:1.5rem;" id="campanasGrid">
+
+      <div class="reveal camp-card" style="transition-delay:.07s;border-radius:4px;overflow:hidden;box-shadow:0 4px 24px rgba(37,28,18,.24);">
+        <div style="position:relative;height:380px;overflow:hidden;">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsw5bwaEIx4A6yvli0G5nR0HXnxnYr2NdRFDWYCU5sX2kp-BXyDOBKd7J_oECJ3_HfYqMc2zSb37OAqWJSW1m7VazSpXl-j5GIKxXoom9zD8HGdHVPr0AAv7H_Rn5pGwgbNNhRoMBkaIFVh0NmGPbnUvs9ihtDU9CJ30R-R4rw5vfujWyfDm5Ko5Ktc3v7GRbERWMe-IKgsNQCvAmv1AR6Cz9DvrmxQv0QIXzb7-5U8MjET1W9jdo41huEypZ90KVviUHqCuUDMVM"
+               alt="Campaña Maíz 2025" class="camp-img" loading="lazy"
+               style="width:100%;height:100%;object-fit:cover;display:block;">
+          <div style="position:absolute;inset:0;background:linear-gradient(160deg,transparent 30%,rgba(37,28,18,.9) 78%);"></div>
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:2rem 2.25rem;">
+            <span class="badge" style="color:rgba(240,226,207,.85);border-color:rgba(240,226,207,.35);margin-bottom:.85rem;display:inline-block;font-size:10px;">En progreso · 2025</span>
+            <h3 style="font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;font-style:italic;color:#f0e2cf;margin-bottom:.3rem;">Maíz</h3>
+            <p style="font-size:.77rem;color:rgba(240,226,207,.5);font-weight:300;">Campaña 2025 · Siembra y labranza</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal camp-card" style="transition-delay:.13s;border-radius:4px;overflow:hidden;box-shadow:0 4px 24px rgba(37,28,18,.24);">
+        <div style="position:relative;height:380px;overflow:hidden;">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHEmaSlYKOJlIXUX5BoRciUUkJj7gu9Ue1_o82AJa-zIec2n_eFKMv_LE9V97RzBurM73Trlb3foPjWMob_yDgfPAy9M3F9d5evkDgqBcYIoCAn0yDQD-Byp0hyAzttPyRxjkOX3qJ5Gi1M93nEyLkBsekEiOV5sqm62A7Vr2_j9nh36rYxfPAAnAkyahTyWvCrEuvxfHdv-MSU8-6_jfZNZzoQL-cyhI7FtxDptvpZK4tkVjGnjMaAi_845gtCBgWy8WwKrNejV4"
+               alt="Campaña Sorgo 2025" class="camp-img" loading="lazy"
+               style="width:100%;height:100%;object-fit:cover;display:block;">
+          <div style="position:absolute;inset:0;background:linear-gradient(160deg,transparent 30%,rgba(37,28,18,.9) 78%);"></div>
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:2rem 2.25rem;">
+            <span class="badge" style="color:#b17e40;border-color:rgba(177,126,64,.55);margin-bottom:.85rem;display:inline-block;font-size:10px;">En progreso · 2025</span>
+            <h3 style="font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;font-style:italic;color:#f0e2cf;margin-bottom:.3rem;">Sorgo</h3>
+            <p style="font-size:.77rem;color:rgba(240,226,207,.5);font-weight:300;">Campaña 2025 · Siembra y cobertura</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ░░ GALERÍA ░░ -->
+<section id="galeria" style="padding:5.5rem 1.5rem 6.5rem;background:#f7f0e7;">
+  <div style="max-width:1100px;margin:0 auto;">
+
+    <div class="reveal" style="margin-bottom:3.5rem;text-align:center;">
+      <span class="badge" style="color:#673b15;border-color:rgba(103,59,21,.45);">Galería</span>
+      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(2rem,4.5vw,3.5rem);font-weight:700;font-style:italic;line-height:1.14;margin-top:.9rem;color:#3d2008;">
+        Trabajo en campo
+      </h2>
+      <div style="display:flex;align-items:center;gap:1rem;max-width:320px;margin:.9rem auto 0;opacity:.65;">
+        <div class="wline"></div>
+        <svg width="40" height="18" viewBox="0 0 40 18" fill="none" style="flex-shrink:0;color:#b17e40;">
+          <line x1="20" y1="10" x2="20" y2="17" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+          <path d="M20 10 L20 4" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+          <path d="M20 8 C18 5.5,15.5 6,14.5 8" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="round"/>
+          <path d="M20 8 C22 5.5,24.5 6,25.5 8" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="round"/>
+          <path d="M20 5.5 C18 3,15.5 3.5,14.5 5.5" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="round"/>
+          <path d="M20 5.5 C22 3,24.5 3.5,25.5 5.5" stroke="currentColor" stroke-width="1" fill="none" stroke-linecap="round"/>
+          <circle cx="20" cy="2.5" r="1.3" fill="currentColor"/>
+        </svg>
+        <div class="wline"></div>
+      </div>
+      <p style="font-size:.84rem;color:#673b15;margin-top:.7rem;font-weight:300;">Equipamiento y operaciones en acción</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr;gap:1rem;" id="galeriaGrid">
+      <div class="reveal gal-card" style="height:260px;overflow:hidden;border-radius:4px;box-shadow:0 2px 16px rgba(103,59,21,.09);transition-delay:.05s;">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyIjXcIODmF_3yp5h6J3lULYAyX5DGLh8T3yB6lJ4pEfukXrprHegN0LUTPEhWMwAsdw97U902dyqs2NCosbfRhgQDUIhPwltk-lGnyX-AxeikfaW_5ebV7VKjZuEBXR4_V9j1K35zLJZ0Cq4TuWerW8mjJQ2OSlTesKDg8KYJh_joK1h56S_jQ9dmF8nDFkJMedNZ4NkwtgxFArXIjuPdxtWrGymaaKA88FNLwyWzB68URZhfun5RyFW0IercZExSGpHwKOuXTwo"
+             alt="AgroServicios Funes" class="gal-img" loading="lazy"
+             style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="reveal gal-card" style="height:260px;overflow:hidden;border-radius:4px;box-shadow:0 2px 16px rgba(103,59,21,.09);transition-delay:.1s;">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjKTyE0SS0DeUW_iWXeJCCGiwbBoAAE2qsgRkg_Mqs8-Y998xcToovPlwAnWgWc0KIzmYzCumiq7tFrJiFcviRRRsTXS340Xnp53RWRdCViBzcj1c7rtmVzttYWZ91ZIrn9dUHkXXRhfYNtl91vW_INafLsqgCBBMdPSmQLw2BpPjQ-WnRN8f8ItxLmShEMxNuatHFS-mR11UNJvKaLeJYnADHTgmGQcVZXmh70ov8MaGjfSFu5yLn0xy7Qu73JqHTxUpHQqtXVo8"
+             alt="AgroServicios Funes" class="gal-img" loading="lazy"
+             style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+      <div class="reveal gal-card" style="height:260px;overflow:hidden;border-radius:4px;box-shadow:0 2px 16px rgba(103,59,21,.09);transition-delay:.15s;">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuABtVOsC51cjOr33SmPWXAtQPl42rnCHKsm7sii4107LpqPC98c2AldsBH3Dcz_gbbzBsO24e8TGaCnbTcwDsq1-seSZBT1m2Mvu_9E--ZHAqtzqMsfpFOBs1MWGcKC2cmD6esoe1wjKJBfVTziGiMw26ToIU2PEG5SEFSxwUAC2T3QKwq-5bC0Uebch2KfIcgZzw4h1mPBTd07DkNWACLg27k1Fkc8HQ_DReDliZBb7vKioN1nJBtun_vTbCdgR8WlZZlhVjON9BI"
+             alt="AgroServicios Funes" class="gal-img" loading="lazy"
+             style="width:100%;height:100%;object-fit:cover;display:block;">
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top:2.5rem;text-align:center;transition-delay:.2s;">
+      <a href="https://www.instagram.com/agroservicio_funes/" target="_blank" rel="noopener noreferrer"
+         class="btn btn-outline-tierra">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        Ver más en @agroservicio_funes
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ░░ CONTACTO ░░ -->
+<section id="contacto" class="bg-oliva" style="padding:5.5rem 1.5rem 6.5rem;">
+  <div style="max-width:820px;margin:0 auto;text-align:center;position:relative;z-index:1;">
+
+    <div class="reveal">
+      <span class="badge" style="color:rgba(240,226,207,.75);border-color:rgba(240,226,207,.3);">Contacto</span>
+      <div style="display:flex;align-items:center;gap:1rem;max-width:220px;margin:1.1rem auto;opacity:.3;">
+        <div class="wline-c"></div>
+        <svg width="28" height="14" viewBox="0 0 28 14" fill="none" style="flex-shrink:0;">
+          <line x1="14" y1="7" x2="14" y2="13" stroke="#EDE0C4" stroke-width="1.1" stroke-linecap="round"/>
+          <path d="M14 7 L14 2" stroke="#EDE0C4" stroke-width="1.1" stroke-linecap="round"/>
+          <path d="M14 5.5 C12.5 3,10 3.5,9 5.5" stroke="#EDE0C4" stroke-width="1" fill="none" stroke-linecap="round"/>
+          <path d="M14 5.5 C15.5 3,18 3.5,19 5.5" stroke="#EDE0C4" stroke-width="1" fill="none" stroke-linecap="round"/>
+          <circle cx="14" cy="1.5" r="1.1" fill="#EDE0C4"/>
+        </svg>
+        <div class="wline-c"></div>
+      </div>
+    </div>
+
+    <div class="reveal" style="transition-delay:.08s;">
+      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(2.2rem,6vw,5rem);font-weight:700;font-style:italic;line-height:1.1;margin-bottom:1.25rem;color:#f0e2cf;">
+        ¿Necesitás<br>trabajo de campo?
+      </h2>
+      <p style="font-size:1rem;line-height:1.82;color:rgba(240,226,207,.6);max-width:440px;margin:0 auto 2.75rem;font-weight:300;">
+        Consultanos sin compromiso. Atendemos pedidos de siembra, disco y arado para la provincia de Santa Fe y zonas aledañas.
+      </p>
+    </div>
+
+    <div class="reveal" style="transition-delay:.15s;display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-bottom:4rem;">
+      <a href="https://wa.me/5492615000000?text=Hola%20AgroServicios%20Funes!%20Me%20interesa%20consultar%20por%20sus%20servicios."
+         target="_blank" rel="noopener noreferrer" class="btn btn-wa">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Consultar por WhatsApp
+      </a>
+      <a href="https://www.instagram.com/agroservicio_funes/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-crema">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        Instagram
+      </a>
+    </div>
+
+    <div class="reveal" style="display:grid;grid-template-columns:1fr;gap:1rem;transition-delay:.22s;" id="infoStrip">
+      <div class="info-box">
+        <div style="font-size:1.7rem;margin-bottom:.7rem;">📍</div>
+        <p style="font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.2em;color:#b17e40;margin-bottom:.5rem;">Zona de operación</p>
+        <p style="font-size:.83rem;color:rgba(240,226,207,.6);line-height:1.75;font-weight:300;">Provincia de Santa Fe<br>y zonas aledañas</p>
+      </div>
+      <div class="info-box">
+        <div style="font-size:1.7rem;margin-bottom:.7rem;">🚜</div>
+        <p style="font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.2em;color:#b17e40;margin-bottom:.5rem;">Servicios</p>
+        <p style="font-size:.83rem;color:rgba(240,226,207,.6);line-height:1.75;font-weight:300;">Siembra · Disco<br>Arado</p>
+      </div>
+      <div class="info-box">
+        <div style="font-size:1.7rem;margin-bottom:.7rem;">📲</div>
+        <p style="font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.2em;color:#b17e40;margin-bottom:.5rem;">Atención</p>
+        <p style="font-size:.83rem;color:rgba(240,226,207,.6);line-height:1.75;font-weight:300;">WhatsApp disponible<br>Respuesta inmediata</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ░░ FOOTER ░░ -->
+<footer style="background:#e8d4b8;border-top:2px solid rgba(139,94,60,.2);padding:2.75rem 1.5rem;">
+  <div style="max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;">
+    <div>
+      <p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;font-style:italic;color:#673b15;">AgroServicios Funes</p>
+      <p style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.16em;color:#673b15;opacity:.5;margin-top:2px;">Contratista Rural · Santa Fe</p>
+    </div>
+    <p style="font-size:.7rem;color:rgba(92,74,53,.4);font-weight:300;">© 2025 · Funes Servicios Rurales</p>
+    <a href="https://www.instagram.com/agroservicio_funes/" target="_blank" rel="noopener noreferrer"
+       style="font-size:.72rem;font-weight:700;color:#673b15;text-decoration:none;opacity:.5;transition:opacity .3s,color .3s;display:flex;align-items:center;gap:.4rem;"
+       onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.5'">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      @agroservicio_funes
+    </a>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu toggle
+  function toggleMenu() {
+    const btn = document.getElementById('hamBtn');
+    const ov  = document.getElementById('menuOverlay');
+    btn.classList.toggle('open');
+    ov.classList.toggle('open');
+    document.body.style.overflow = ov.classList.contains('open') ? 'hidden' : '';
+  }
+
+  // Scroll reveal
+  const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.07, rootMargin: '0px 0px -20px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+  // Navbar: transparent over hero, frosted glass after
+  const nav   = document.getElementById('mainNav');
+  const hero  = document.getElementById('heroSection');
+  const links = nav.querySelectorAll('.nav-link');
+  const hLines= nav.querySelectorAll('.ham-line');
+  const logoName = nav.querySelector('.nav-logo-name');
+  const logoSub  = nav.querySelector('.nav-logo-sub');
+
+  function applyNav(scrolled) {
+    nav.classList.toggle('nav-scrolled', scrolled);
+    nav.classList.toggle('nav-transparent', !scrolled);
+    const lc = scrolled ? '#673b15' : 'rgba(240,226,207,.85)';
+    const nc = scrolled ? '#673b15' : '#f0e2cf';
+    const sc = scrolled ? '#4A5C3A' : 'rgba(240,226,207,.65)';
+    const hc = scrolled ? '#673b15' : '#f0e2cf';
+    links.forEach(l => l.style.color = lc);
+    logoName.style.color = nc;
+    logoSub.style.color  = sc;
+    hLines.forEach(l => l.style.background = hc);
+  }
+
+  new IntersectionObserver(entries => {
+    applyNav(!entries[0].isIntersecting);
+  }, { rootMargin: '-62px 0px 0px 0px', threshold: 0 }).observe(hero);
+
+  // Subtle parallax on hero image
+  const heroBg = document.getElementById('heroBg');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (y < window.innerHeight * 1.2) {
+      heroBg.style.transform = `translateY(${y * 0.28}px)`;
+    }
+  }, { passive: true });
+</script>
+</body>
+</html>
