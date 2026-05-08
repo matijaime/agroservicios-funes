@@ -3,213 +3,14 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>AgroServicios Funes — Contratista Rural · Santa Fe</title>
+<title>AgroServicios Funes — Contratista Rural · General La Madrid</title>
+<script src="assets/js/tailwind.config.js"></script>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-tailwind.config = {
-  darkMode:"class",
-  theme:{extend:{
-    colors:{
-      "primary":"#4c2502","secondary":"#81551a","surface":"#fff8f1",
-      "background":"#fff8f1","on-primary":"#ffffff","on-surface":"#1e1b16",
-      "on-surface-variant":"#51443b","surface-variant":"#e8e1d9",
-      "outline-variant":"#d6c3b7","inverse-on-surface":"#f7f0e7",
-      "surface-container-low":"#faf3ea","surface-bright":"#fff8f1",
-      "tertiary-container":"#394b29","tertiary-fixed":"#d4eabc",
-      "secondary-fixed":"#ffddb9","surface-container":"#f4ede4"
-    },
-    fontFamily:{
-      "serif":["Playfair Display","Georgia","serif"],
-      "sans":["Open Sans","sans-serif"]
-    }
-  }}
-}
-</script>
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{overflow-x:hidden;font-family:'Open Sans',sans-serif;}
-
-/* Paper noise */
-.noise-overlay{
-  position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.045;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.055'/%3E%3C/svg%3E");
-  background-size:220px 220px;
-}
-
-/* Scroll reveal */
-.reveal{
-  opacity:0;transform:translateY(28px);filter:blur(4px);
-  transition:opacity .82s cubic-bezier(.32,.72,0,1),
-             transform .82s cubic-bezier(.32,.72,0,1),
-             filter .82s cubic-bezier(.32,.72,0,1);
-}
-.reveal.visible{opacity:1;transform:none;filter:blur(0);}
-
-/* Navbar */
-.nav-bar{
-  transition:background .4s cubic-bezier(.32,.72,0,1),
-             border-color .4s cubic-bezier(.32,.72,0,1),
-             box-shadow .4s cubic-bezier(.32,.72,0,1),
-             backdrop-filter .4s cubic-bezier(.32,.72,0,1);
-}
-.nav-transparent{background:transparent;border-bottom:1px solid transparent;box-shadow:none;}
-.nav-scrolled{
-  background:rgba(247,240,231,.95);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-bottom:1px solid rgba(139,94,60,.14);
-  box-shadow:0 1px 24px rgba(44,34,24,.08);
-}
-
-/* Logo text transitions */
-.nav-logo-name,.nav-logo-sub,.nav-link{transition:color .4s cubic-bezier(.32,.72,0,1);}
-
-/* Hamburger */
-.ham-line{
-  display:block;width:22px;height:2px;border-radius:1px;
-  transition:transform .32s ease,opacity .22s ease,background .4s ease;
-  transform-origin:center;
-}
-.ham-btn.open .ham-line:nth-child(1){transform:translateY(7.5px) rotate(45deg);}
-.ham-btn.open .ham-line:nth-child(2){opacity:0;transform:scaleX(0);}
-.ham-btn.open .ham-line:nth-child(3){transform:translateY(-7.5px) rotate(-45deg);}
-
-/* Mobile overlay */
-.menu-overlay{
-  position:fixed;inset:0;z-index:70;
-  background:rgba(37,28,18,.97);
-  opacity:0;pointer-events:none;transition:opacity .32s ease;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.2rem;
-}
-.menu-overlay.open{opacity:1;pointer-events:all;}
-.menu-link-ov{
-  font-family:'Playfair Display',serif;font-size:2.8rem;font-style:italic;font-weight:700;
-  color:#f0e2cf;text-decoration:none;
-  opacity:0;transform:translateY(16px);
-  transition:opacity .36s ease,transform .36s ease,color .22s;
-}
-.menu-link-ov:hover{color:#b17e40;}
-.menu-overlay.open .menu-link-ov:nth-child(1){opacity:1;transform:none;transition-delay:.07s;}
-.menu-overlay.open .menu-link-ov:nth-child(2){opacity:1;transform:none;transition-delay:.12s;}
-.menu-overlay.open .menu-link-ov:nth-child(3){opacity:1;transform:none;transition-delay:.17s;}
-.menu-overlay.open .menu-link-ov:nth-child(4){opacity:1;transform:none;transition-delay:.22s;}
-
-/* Buttons */
-.btn{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:13px 28px;border-radius:50px;
-  font-family:'Open Sans',sans-serif;font-size:12px;font-weight:800;
-  text-transform:uppercase;letter-spacing:.14em;text-decoration:none;cursor:pointer;
-  transition:transform .28s cubic-bezier(.32,.72,0,1),
-             box-shadow .28s cubic-bezier(.32,.72,0,1),
-             background .22s ease,color .22s ease,border-color .22s ease;
-  border:2px solid transparent;
-}
-.btn:hover{transform:translateY(-2px);}
-.btn:active{transform:scale(.97);}
-
-.btn-dorado{background:#b17e40;color:#fff;border-color:#b17e40;box-shadow:0 2px 12px rgba(177,126,64,.28);}
-.btn-dorado:hover{background:#8c6025;border-color:#8c6025;box-shadow:0 7px 24px rgba(177,126,64,.38);}
-
-.btn-tierra{background:#673b15;color:#f0e2cf;border-color:#673b15;box-shadow:0 2px 12px rgba(103,59,21,.22);}
-.btn-tierra:hover{background:#3d2008;border-color:#3d2008;box-shadow:0 7px 24px rgba(103,59,21,.32);}
-
-.btn-outline-crema{background:transparent;color:#f0e2cf;border-color:rgba(240,226,207,.65);}
-.btn-outline-crema:hover{background:rgba(240,226,207,.1);border-color:#f0e2cf;}
-
-.btn-outline-tierra{background:transparent;color:#673b15;border-color:#673b15;box-shadow:0 2px 8px rgba(103,59,21,.08);}
-.btn-outline-tierra:hover{background:#673b15;color:#f0e2cf;box-shadow:0 7px 20px rgba(103,59,21,.24);}
-
-.btn-wa{background:#2e7d32;color:#fff;border-color:#2e7d32;box-shadow:0 2px 12px rgba(46,125,50,.24);}
-.btn-wa:hover{background:#1b5e20;border-color:#1b5e20;box-shadow:0 7px 24px rgba(46,125,50,.34);}
-
-/* Badge */
-.badge{
-  display:inline-block;font-family:'Open Sans',sans-serif;font-size:11px;font-weight:800;
-  text-transform:uppercase;letter-spacing:.22em;padding:3px 10px;
-  border:1px solid currentColor;border-radius:3px;
-}
-
-/* Wheat divider lines */
-.wline{flex:1;height:1px;background:linear-gradient(to right,transparent,#b17e40 50%,transparent);}
-.wline-c{flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(240,226,207,.45) 50%,transparent);}
-
-/* Olive section */
-.bg-oliva{background-color:#3C4E2C;position:relative;}
-.bg-oliva::before{
-  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.07;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  background-size:200px 200px;
-}
-
-/* Service ficha */
-.ficha-outer{
-  background:rgba(103,59,21,.04);border:1px solid rgba(103,59,21,.15);
-  border-radius:4px;padding:2px;
-  transition:transform .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1);
-  height:100%;
-}
-.ficha-outer:hover{transform:translateY(-5px);box-shadow:0 18px 50px rgba(103,59,21,.16);}
-.ficha-inner{
-  background:#fff;border-top:3px solid #673b15;border-radius:3px;
-  padding:3.5rem 2rem 2.25rem;position:relative;overflow:hidden;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.9);height:100%;
-}
-.ficha-num{
-  position:absolute;top:.5rem;right:1rem;
-  font-family:'Playfair Display',serif;font-size:5.5rem;font-style:italic;font-weight:900;
-  color:#673b15;opacity:.055;line-height:1;user-select:none;pointer-events:none;
-  transition:opacity .3s;
-}
-.ficha-outer:hover .ficha-num{opacity:.1;}
-.ficha-icon{
-  width:52px;height:52px;border:1px solid rgba(103,59,21,.22);border-radius:3px;
-  display:flex;align-items:center;justify-content:center;
-  margin-bottom:1.4rem;background:rgba(103,59,21,.05);
-}
-.spec-row{
-  display:flex;justify-content:space-between;padding-bottom:.35rem;
-  border-bottom:1px solid rgba(103,59,21,.08);
-  font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;
-}
-
-/* Campaign & gallery hover */
-.camp-img{transition:transform .7s cubic-bezier(.32,.72,0,1);}
-.camp-card:hover .camp-img{transform:scale(1.05);}
-.gal-img{transition:transform .5s cubic-bezier(.32,.72,0,1);}
-.gal-card:hover .gal-img{transform:scale(1.07);}
-.gal-card,.camp-card{
-  transition:transform .3s cubic-bezier(.32,.72,0,1),box-shadow .3s cubic-bezier(.32,.72,0,1);
-}
-.gal-card:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(103,59,21,.18);}
-.camp-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(37,28,18,.28);}
-
-/* Double bezel service cards */
-.double-bezel{
-  border:1px solid #4c2502;
-  box-shadow:inset 0 0 0 1px #ffddb9;
-}
-.material-symbols-outlined{font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24;}
-
-
-/* Info box */
-.info-box{
-  border:1px solid rgba(240,226,207,.16);border-radius:3px;
-  padding:2rem 1.5rem;text-align:center;background:rgba(240,226,207,.04);
-}
-
-/* Responsive grids */
-@media(min-width:768px){
-  #serviciosGrid{grid-template-columns:repeat(3,1fr) !important;}
-  #campanasGrid{grid-template-columns:repeat(2,1fr) !important;}
-  #galeriaGrid{grid-template-columns:repeat(3,1fr) !important;}
-  #infoStrip{grid-template-columns:repeat(3,1fr) !important;}
-}
-</style>
+<link rel="stylesheet" href="assets/css/styles.css">
 </head>
 
 <body class="bg-background text-on-surface antialiased">
@@ -270,7 +71,7 @@ body{overflow-x:hidden;font-family:'Open Sans',sans-serif;}
     </div>
 
     <div class="reveal" style="transition-delay:.07s;display:flex;justify-content:center;margin-bottom:1.1rem;">
-      <span class="badge" style="color:#f0e2cf;border-color:rgba(240,226,207,.45);">Contratista Rural · Santa Fe, Argentina</span>
+      <span class="badge" style="color:#f0e2cf;border-color:rgba(240,226,207,.45);">Contratista Rural · General La Madrid, Argentina</span>
     </div>
 
     <div class="reveal" style="transition-delay:.13s;margin-bottom:1.1rem;">
@@ -514,7 +315,7 @@ body{overflow-x:hidden;font-family:'Open Sans',sans-serif;}
         ¿Necesitás<br>trabajo de campo?
       </h2>
       <p style="font-size:1rem;line-height:1.82;color:rgba(240,226,207,.6);max-width:440px;margin:0 auto 2.75rem;font-weight:300;">
-        Consultanos sin compromiso. Atendemos pedidos de siembra, disco y arado para la provincia de Santa Fe y zonas aledañas.
+        Consultanos sin compromiso. Atendemos pedidos de siembra, disco y arado para General La Madrid y zonas aledañas.
       </p>
     </div>
 
@@ -534,7 +335,7 @@ body{overflow-x:hidden;font-family:'Open Sans',sans-serif;}
       <div class="info-box">
         <div style="font-size:1.7rem;margin-bottom:.7rem;">📍</div>
         <p style="font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.2em;color:#b17e40;margin-bottom:.5rem;">Zona de operación</p>
-        <p style="font-size:.83rem;color:rgba(240,226,207,.6);line-height:1.75;font-weight:300;">Provincia de Santa Fe<br>y zonas aledañas</p>
+        <p style="font-size:.83rem;color:rgba(240,226,207,.6);line-height:1.75;font-weight:300;">General La Madrid<br>y zonas aledañas</p>
       </div>
       <div class="info-box">
         <div style="font-size:1.7rem;margin-bottom:.7rem;">🚜</div>
@@ -556,7 +357,7 @@ body{overflow-x:hidden;font-family:'Open Sans',sans-serif;}
   <div style="max-width:1100px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem;">
     <div>
       <p style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;font-style:italic;color:#673b15;">AgroServicios Funes</p>
-      <p style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.16em;color:#673b15;opacity:.5;margin-top:2px;">Contratista Rural · Santa Fe</p>
+      <p style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.16em;color:#673b15;opacity:.5;margin-top:2px;">Contratista Rural · General La Madrid</p>
     </div>
     <p style="font-size:.7rem;color:rgba(92,74,53,.4);font-weight:300;">© 2025 · Funes Servicios Rurales</p>
     <a href="https://www.instagram.com/agroservicio_funes/" target="_blank" rel="noopener noreferrer"
@@ -568,55 +369,6 @@ body{overflow-x:hidden;font-family:'Open Sans',sans-serif;}
   </div>
 </footer>
 
-<script>
-  // Mobile menu toggle
-  function toggleMenu() {
-    const btn = document.getElementById('hamBtn');
-    const ov  = document.getElementById('menuOverlay');
-    btn.classList.toggle('open');
-    ov.classList.toggle('open');
-    document.body.style.overflow = ov.classList.contains('open') ? 'hidden' : '';
-  }
-
-  // Scroll reveal
-  const revealObs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.07, rootMargin: '0px 0px -20px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
-
-  // Navbar: transparent over hero, frosted glass after
-  const nav   = document.getElementById('mainNav');
-  const hero  = document.getElementById('heroSection');
-  const links = nav.querySelectorAll('.nav-link');
-  const hLines= nav.querySelectorAll('.ham-line');
-  const logoName = nav.querySelector('.nav-logo-name');
-  const logoSub  = nav.querySelector('.nav-logo-sub');
-
-  function applyNav(scrolled) {
-    nav.classList.toggle('nav-scrolled', scrolled);
-    nav.classList.toggle('nav-transparent', !scrolled);
-    const lc = scrolled ? '#673b15' : 'rgba(240,226,207,.85)';
-    const nc = scrolled ? '#673b15' : '#f0e2cf';
-    const sc = scrolled ? '#4A5C3A' : 'rgba(240,226,207,.65)';
-    const hc = scrolled ? '#673b15' : '#f0e2cf';
-    links.forEach(l => l.style.color = lc);
-    logoName.style.color = nc;
-    logoSub.style.color  = sc;
-    hLines.forEach(l => l.style.background = hc);
-  }
-
-  new IntersectionObserver(entries => {
-    applyNav(!entries[0].isIntersecting);
-  }, { rootMargin: '-62px 0px 0px 0px', threshold: 0 }).observe(hero);
-
-  // Subtle parallax on hero image
-  const heroBg = document.getElementById('heroBg');
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    if (y < window.innerHeight * 1.2) {
-      heroBg.style.transform = `translateY(${y * 0.28}px)`;
-    }
-  }, { passive: true });
-</script>
+<script src="assets/js/main.js"></script>
 </body>
 </html>
